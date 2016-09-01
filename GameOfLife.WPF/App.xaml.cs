@@ -13,5 +13,6 @@ namespace GameOfLife.WPF
     /// </summary>
     public partial class App : Application
     {
+        public static void RunOnUiThread(Action action) => Current.Dispatcher.BeginInvoke(action);
     }
 }

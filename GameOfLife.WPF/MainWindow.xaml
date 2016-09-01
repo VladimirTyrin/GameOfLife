@@ -5,8 +5,73 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GameOfLife.WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
+        Title="Game of life" Height="350" Width="525"
+        Closing="MainWindow_OnClosing">
+    <Window.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Margin" Value="10"></Setter>
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="10"></Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Name="MainGrid">
         
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" MaxHeight="50"></RowDefinition>
+            <RowDefinition Height="5*"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <Label Name="StepLabel"
+               Grid.Row="0"
+               Grid.Column="1"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Center"
+               Content="Step: "></Label>
+
+        <Label Name="AliveLabel"
+               Grid.Row="0"
+               Grid.Column="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Center"
+               Content="Alive: "></Label>
+        
+        <Button Name="ToggleStateButton"
+                Grid.Row="0"
+                Grid.Column="3"
+                Content="Start"
+                MinWidth="50"
+                Click="ToggleStateButton_OnClick"></Button>
+        
+        <Grid Name="FieldGrid"
+              Grid.Row="1"
+              Grid.Column="0"
+              Grid.ColumnSpan="4"
+              Canvas.ZIndex="1"
+              Margin="10"></Grid>
+
+        <Label Name="DiedLabel"
+               Canvas.ZIndex="100"
+               Grid.Row="1"
+               Grid.Column="0"
+               Grid.ColumnSpan="4"
+               Visibility="Hidden"
+               Margin="30"
+               Content="Everyone is DEAD"
+               FontSize="36"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               Foreground="Black"
+               Background="Red"
+               ></Label>
     </Grid>
 </Window>

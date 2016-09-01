@@ -9,11 +9,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GameOfLife.WPF</RootNamespace>
     <AssemblyName>GameOfLife.WPF</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -94,6 +95,29 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GameOfLife.Common\GameOfLife.Common.csproj">
+      <Project>{bd7eecf8-570b-4867-a460-54320d7f67e8}</Project>
+      <Name>GameOfLife.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ITCC.Library\ITCC.Logging.Core\ITCC.Logging.Core.csproj">
+      <Project>{FC73DFCF-4D11-4400-BB98-5115CA2608E1}</Project>
+      <Name>ITCC.Logging.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ITCC.Library\ITCC.Logging.Windows\ITCC.Logging.Windows.csproj">
+      <Project>{bbc8b7e2-bfc2-4b03-bd01-5b6bd10649c1}</Project>
+      <Name>ITCC.Logging.Windows</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ITCC.Library\ITCC.UI\ITCC.UI.csproj">
+      <Project>{07D36841-8876-437C-B7A4-CBF1012513EB}</Project>
+      <Name>ITCC.UI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="StartCells.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
