@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Timers;
 using GameOfLife.Common.Enums;
 using GameOfLife.Common.Utils;
@@ -64,6 +65,21 @@ namespace GameOfLife.Common
             _stepTimer.Enabled = true;
         }
 
+        public void ToggleCell(int x, int y)
+        {
+            lock (_fieldLock)
+            {
+                var queued = _queuedToggle.FirstOrDefault(c => c.X == x && c.Y == y);
+                if (queued != null)
+                {
+                    _queuedToggle.Remove(queued);
+                    return;
+                }
+
+                _queuedToggle.Add(new StartCell(x, y));
+            }
+        }
+
         public int Width { get; }
         public int Height { get; }
         public int UpdatePeriod { get; private set; }
@@ -78,15 +94,26 @@ namespace GameOfLife.Common
         private void Update(object sender, ElapsedEventArgs elapsedEventArgs)
         {
             AliveCount = 0;
-            for (var i = 1; i < Width + 1; ++i)
+            lock (_fieldLock)
             {
-                for (var j = 1; j < Height + 1; ++j)
+                foreach (var startCell in _queuedToggle)
                 {
-                    var neighborCount = GetNeighborCount(i, j);
-                    var newState = GetNewState(_oldField[i, j], neighborCount);
-                    if (newState == CellState.Alive)
-                        AliveCount++;
-                    _newField[i, j] = newState;
+                    _oldField[startCell.X, startCell.Y] = _oldField[startCell.X, startCell.Y] == CellState.Alive
+                        ? CellState.Dead
+                        : CellState.Alive;
+                }
+                _queuedToggle.Clear();
+
+                for (var i = 1; i < Width + 1; ++i)
+                {
+                    for (var j = 1; j < Height + 1; ++j)
+                    {
+                        var neighborCount = GetNeighborCount(i, j);
+                        var newState = GetNewState(_oldField[i, j], neighborCount);
+                        if (newState == CellState.Alive)
+                            AliveCount++;
+                        _newField[i, j] = newState;
+                    }
                 }
             }
 
@@ -95,7 +122,6 @@ namespace GameOfLife.Common
                 Ended?.Invoke(this, new EventArgs());
                 _ended = true;
                 _stepTimer.Enabled = false;
-                
             }
 
             CopyNewFieldToOld();
@@ -153,6 +179,8 @@ namespace GameOfLife.Common
         private readonly object _stateLock = new object();
         private readonly CellState[,] _oldField;
         private readonly CellState[,] _newField;
+        private readonly object _fieldLock = new object();
+        private readonly List<StartCell> _queuedToggle = new List<StartCell>();
 
         #endregion
     }

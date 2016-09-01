@@ -42,7 +42,7 @@ namespace GameOfLife.WPF
             StartLog();
 #endif
 
-            InitField(30, 30, 300, "StartCells.txt");
+            InitField(30, 30, 2000, "StartCells.txt");
         }
 
         private void StartLog()
@@ -101,9 +101,15 @@ namespace GameOfLife.WPF
                         App.RunOnUiThread(() =>
                         {
                             if (_started)
+                            {
+                                _game.ToggleCell(iCopy, jCopy);
+                                _cellRectangles[iCopy - 1, jCopy - 1].Background = _cellRectangles[iCopy - 1, jCopy - 1].Background.Equals(DeadBrush)
+                                    ? AliveBrush
+                                    : DeadBrush;
                                 return;
+                            }
                             var startCell = _startCells.FirstOrDefault(sc => sc.X == iCopy && sc.Y == jCopy);
-                            if (startCell.X == 0 && startCell.Y == 0)
+                            if (startCell == null)
                             {
                                 _startCells.Add(new StartCell(iCopy, jCopy));
                                 _cellRectangles[iCopy - 1, jCopy - 1].Background = AliveBrush;
@@ -113,6 +119,7 @@ namespace GameOfLife.WPF
                                 _startCells.Remove(startCell);
                                 _cellRectangles[iCopy - 1, jCopy - 1].Background = DeadBrush;
                             }
+                            
                         });
                     };
                 }
