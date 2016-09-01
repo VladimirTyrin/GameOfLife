@@ -42,7 +42,7 @@ namespace GameOfLife.WPF
             StartLog();
 #endif
 
-            InitField(30, 30, 2000, "StartCells.txt");
+            InitField(30, 30, 200, "StartCells.txt");
         }
 
         private void StartLog()
@@ -78,7 +78,6 @@ namespace GameOfLife.WPF
 
             for (var i = 0; i < width; ++i)
                 FieldGrid.ColumnDefinitions.Add(new ColumnDefinition());
-
             _cellRectangles = new Label[height, width];
             for (var i = 0; i < height; ++i)
             {
